@@ -74,7 +74,7 @@ implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   @Input()
   public set maxWidth(value: string) {
       this._maxWidth = value;
-      this.maxWidth$.next();
+      this.maxWidth$.next(true);
   }
 
   @Input() public maintainAspectRatio = true;
@@ -135,7 +135,7 @@ implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   private slides$ = new BehaviorSubject<number>(null);
 
   private _maxWidth = "auto";
-  private maxWidth$ = new Subject<never>();
+  private maxWidth$ = new Subject<boolean>();
 
   private _loop = true;
   private loop$ = new Subject<boolean>();
@@ -144,9 +144,9 @@ implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   private orientation$ = new Subject<Orientation>();
 
   private timer$: Observable<number>;
-  private timerStop$ = new Subject<never>();
+  private timerStop$ = new Subject<boolean>();
 
-  private destroy$ = new Subject<never>();
+  private destroy$ = new Subject<boolean>();
   private playing = false;
 
   constructor(
@@ -200,7 +200,7 @@ implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-      this.destroy$.next();
+      this.destroy$.next(true);
       this.destroy$.complete();
   }
 
@@ -408,6 +408,6 @@ implements AfterContentInit, AfterViewInit, MatCarousel, OnDestroy {
   }
 
   private stopTimer(): void {
-      this.timerStop$.next();
+      this.timerStop$.next(true);
   }
 }
